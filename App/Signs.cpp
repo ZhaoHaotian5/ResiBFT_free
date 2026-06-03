@@ -3,7 +3,7 @@
 void Signs::serialize(salticidae::DataStream &data) const
 {
 	data << this->size;
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		data << this->signs[i];
 	}
@@ -12,7 +12,7 @@ void Signs::serialize(salticidae::DataStream &data) const
 void Signs::unserialize(salticidae::DataStream &data)
 {
 	data >> this->size;
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		data >> this->signs[i];
 	}
@@ -21,7 +21,7 @@ void Signs::unserialize(salticidae::DataStream &data)
 Signs::Signs()
 {
 	this->size = 0;
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		this->signs[i] = Sign();
 	}
@@ -33,10 +33,10 @@ Signs::Signs(Sign sign)
 	this->signs[0] = sign;
 }
 
-Signs::Signs(unsigned int size, Sign signs[NUM_REPLICAS])
+Signs::Signs(unsigned int size, Sign signs[NUM_ACTIVE_REPLICAS])
 {
 	this->size = size;
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		this->signs[i] = signs[i];
 	}
@@ -175,7 +175,7 @@ bool Signs::operator==(const Signs &data) const
 	{
 		return false;
 	}
-	for (int i = 0; i < NUM_REPLICAS && i < this->size; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS && i < this->size; i++)
 	{
 		if (!(signs[i] == data.signs[i]))
 		{

@@ -135,7 +135,7 @@ std::string signs2string_t(Signs_t signs_t)
 {
 	std::string text = "";
 	text += std::to_string(signs_t.size);
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		text += sign2string_t(signs_t.signs[i]);
 	}
@@ -154,7 +154,7 @@ std::string justification2string_t(Justification_t justification_t)
 std::string justifications2string_t(Justifications_t justifications_t)
 {
 	std::string text = "";
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		text += justification2string_t(justifications_t.justifications[i]);
 	}
@@ -200,7 +200,7 @@ std::string validations2string_t(Validations_t validations_t)
 {
 	std::string text = "";
 	text += std::to_string(validations_t.size);
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		text += validation2string_t(validations_t.validations[i]);
 	}

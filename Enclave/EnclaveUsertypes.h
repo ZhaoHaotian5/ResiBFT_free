@@ -53,7 +53,7 @@ typedef struct _Sign_t
 typedef struct _Signs_t
 {
 	unsigned int size;
-	Sign_t signs[NUM_REPLICAS];
+	Sign_t signs[NUM_ACTIVE_REPLICAS];
 } Signs_t;
 
 typedef struct _Justification_t
@@ -65,7 +65,7 @@ typedef struct _Justification_t
 
 typedef struct _Justifications_t
 {
-	Justification_t justifications[NUM_REPLICAS];
+	Justification_t justifications[NUM_ACTIVE_REPLICAS];
 } Justifications_t;
 
 typedef struct _Accumulator_t

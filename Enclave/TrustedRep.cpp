@@ -287,7 +287,7 @@ sgx_status_t TEE_initializeAccumulatorFast(Justifications_t *justifications_MsgN
 	Hash_t highHash_t = initiateHash_t();
 	std::set<ReplicaID> signers;
 
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		Justification_t justification_MsgNewviewFast_t = justifications_MsgNewviewFast_t->justifications[i];
 		RoundData_t roundData_MsgNewviewFast_t = justification_MsgNewviewFast_t.roundData;
@@ -305,8 +305,16 @@ sgx_status_t TEE_initializeAccumulatorFast(Justifications_t *justifications_MsgN
 					highView = justifyView_MsgNewviewFast;
 					highHash_t = justifyHash_MsgNewviewFast_t;
 				}
+				if (DEBUG_TEE)
+				{
+					TEE_Print((printReplicaId_t() + " verified MsgNewview " + std::to_string(signer) + " in fast path by accumulator").c_str());
+				}
 			}
 		}
+	}
+	if (DEBUG_TEE)
+	{
+		TEE_Print((printReplicaId_t() + " verified all MsgNewview in fast path by accumulator").c_str());
 	}
 
 	accumulator_MsgLdrprepareFast_t->set = true;

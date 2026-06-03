@@ -148,7 +148,7 @@ private:
 	Justification lockMsgPrecommitCommon(Justification justification_MsgPrecommitCommon);
 
 	Justification initializeMsgNewviewFast();
-	Accumulator initializeAccumulatorFast(Justification justifications_MsgNewview[NUM_REPLICAS]);
+	Accumulator initializeAccumulatorFast(Justification justifications_MsgNewview[NUM_ACTIVE_REPLICAS]);
 	Signs initializeMsgLdrprepareFast(ProposalFast proposal_MsgLdrprepare);
 	Justification respondProposalFast(Hash proposeHash, Accumulator accumulator_MsgLdrprepareFast);
 	Justification saveMsgPrepareFast(Justification justification_MsgPrepare);

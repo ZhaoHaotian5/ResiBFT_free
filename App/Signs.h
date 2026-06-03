@@ -16,7 +16,7 @@ class Signs
 {
 private:
 	unsigned int size;
-	Sign signs[NUM_REPLICAS];
+	Sign signs[NUM_ACTIVE_REPLICAS];
 
 public:
 	void serialize(salticidae::DataStream &data) const;
@@ -24,7 +24,7 @@ public:
 
 	Signs();
 	Signs(Sign sign);
-	Signs(unsigned int size, Sign signs[NUM_REPLICAS]);
+	Signs(unsigned int size, Sign signs[NUM_ACTIVE_REPLICAS]);
 	Signs(salticidae::DataStream &data);
 
 	unsigned int getSize();

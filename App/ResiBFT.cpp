@@ -118,7 +118,7 @@ void setSigns(Signs signs, Signs_t *signs_t)
 Signs getSigns(Signs_t *signs_t)
 {
 	unsigned int size = signs_t->size;
-	Sign signs[NUM_REPLICAS];
+	Sign signs[NUM_ACTIVE_REPLICAS];
 	for (int i = 0; i < size; i++)
 	{
 		signs[i] = getSign(&(signs_t->signs[i]));
@@ -136,9 +136,9 @@ void setJustification(Justification justification, Justification_t *justificatio
 }
 
 // Store [justifications] in [justifications_t]
-void setJustifications(Justification justifications[NUM_REPLICAS], Justifications_t *justifications_t)
+void setJustifications(Justification justifications[NUM_ACTIVE_REPLICAS], Justifications_t *justifications_t)
 {
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		setJustification(justifications[i], &(justifications_t->justifications[i]));
 	}
@@ -149,8 +149,8 @@ Justification getJustification(Justification_t *justification_t)
 {
 	bool set = justification_t->set;
 	RoundData roundData = getRoundData(&(justification_t->roundData));
-	Sign sign[NUM_REPLICAS];
-	for (int i = 0; i < NUM_REPLICAS; i++)
+	Sign sign[NUM_ACTIVE_REPLICAS];
+	for (int i = 0; i < NUM_ACTIVE_REPLICAS; i++)
 	{
 		sign[i] = Sign(justification_t->signs.signs[i].set, justification_t->signs.signs[i].signer, justification_t->signs.signs[i].signtext);
 	}
@@ -859,7 +859,7 @@ Justification ResiBFT::initializeMsgNewviewFast()
 	return justification_MsgNewviewFast;
 }
 
-Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgNewviewFast[NUM_REPLICAS])
+Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgNewviewFast[NUM_ACTIVE_REPLICAS])
 {
 	Accumulator accumulator_MsgLdrprepareFast = Accumulator();
 	Justifications_t justifications_MsgNewviewFast_t;
@@ -914,17 +914,13 @@ Justification ResiBFT::saveMsgPrepareFast(Justification justification_MsgPrepare
 
 Validations ResiBFT::buildValidations(std::set<MsgNewviewFast> msgNewviewFasts)
 {
-	Validation validations_MsgNewviewFast[NUM_REPLICAS];
+	Validation validations_MsgNewviewFast[NUM_ACTIVE_REPLICAS];
 	unsigned int i = 0;
-	for (std::set<MsgNewviewFast>::iterator itMsg = msgNewviewFasts.begin(); itMsg != msgNewviewFasts.end() && i < NUM_REPLICAS; itMsg++, i++)
+	for (std::set<MsgNewviewFast>::iterator itMsg = msgNewviewFasts.begin(); itMsg != msgNewviewFasts.end() && i < NUM_ACTIVE_REPLICAS; itMsg++, i++)
 	{
 		MsgNewviewFast msgNewviewFast = *itMsg;
 		Validation validation_MsgNewviewFast = msgNewviewFast.validation;
 		validations_MsgNewviewFast[i] = validation_MsgNewviewFast;
-		if (DEBUG_HELP)
-		{
-			std::cout << COLOUR_BLUE << this->printReplicaId() << "MsgNewview[" << i << "] in fast path: " << msgNewviewFast.toPrint() << COLOUR_NORMAL << std::endl;
-		}
 		if (DEBUG_HELP)
 		{
 			std::cout << COLOUR_BLUE << this->printReplicaId() << "Validation of MsgNewview[" << i << "] in fast path: " << validations_MsgNewviewFast[i].toPrint() << COLOUR_NORMAL << std::endl;
@@ -938,9 +934,9 @@ Validations ResiBFT::buildValidations(std::set<MsgNewviewFast> msgNewviewFasts)
 
 Accumulator ResiBFT::buildAccumulator(std::set<MsgNewviewFast> msgNewviewFasts)
 {
-	Justification justifications_MsgNewviewFast[NUM_REPLICAS];
+	Justification justifications_MsgNewviewFast[NUM_ACTIVE_REPLICAS];
 	unsigned int i = 0;
-	for (std::set<MsgNewviewFast>::iterator itMsg = msgNewviewFasts.begin(); itMsg != msgNewviewFasts.end() && i < NUM_REPLICAS; itMsg++, i++)
+	for (std::set<MsgNewviewFast>::iterator itMsg = msgNewviewFasts.begin(); itMsg != msgNewviewFasts.end() && i < NUM_ACTIVE_REPLICAS; itMsg++, i++)
 	{
 		MsgNewviewFast msgNewviewFast = *itMsg;
 		RoundData roundData_MsgNewviewFast = msgNewviewFast.roundData;
@@ -950,10 +946,6 @@ Accumulator ResiBFT::buildAccumulator(std::set<MsgNewviewFast> msgNewviewFasts)
 		if (DEBUG_HELP)
 		{
 			std::cout << COLOUR_BLUE << this->printReplicaId() << "MsgNewview[" << i << "]: " << msgNewviewFast.toPrint() << COLOUR_NORMAL << std::endl;
-		}
-		if (DEBUG_HELP)
-		{
-			std::cout << COLOUR_BLUE << this->printReplicaId() << "Justification of MsgNewview[" << i << "]: " << justifications_MsgNewviewFast[i].toPrint() << COLOUR_NORMAL << std::endl;
 		}
 	}
 

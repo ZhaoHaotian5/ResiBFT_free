@@ -502,7 +502,7 @@ void ResiBFT::executeBlockCommon(RoundData roundData_MsgCommitCommon)
 	double time = std::chrono::duration_cast<std::chrono::microseconds>(endView - startView).count();
 	startView = endView;
 	statistics.increaseExecuteViews();
-	statistics.addAllViewTimes(time);
+	statistics.addAllViewTimes(this->view, time);
 	statistics.addAllHandleTimes(this->view);
 
 	if (this->transactions.empty())
@@ -580,7 +580,7 @@ void ResiBFT::executeBlockFast(RoundData roundData_MsgPrecommit, Validation vali
 	double time = std::chrono::duration_cast<std::chrono::microseconds>(endView - startView).count();
 	startView = endView;
 	statistics.increaseExecuteViews();
-	statistics.addAllViewTimes(time);
+	statistics.addAllViewTimes(this->view, time);
 	statistics.addAllHandleTimes(this->view);
 
 	if (this->transactions.empty())
@@ -861,6 +861,10 @@ Justification ResiBFT::initializeMsgNewviewFast()
 
 Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgNewviewFast[NUM_ACTIVE_REPLICAS])
 {
+	if (DEBUG_HELP)
+	{
+		std::cout << COLOUR_BLUE << this->printReplicaId() << "Initializing accumulator" << COLOUR_NORMAL << std::endl;
+	}
 	Accumulator accumulator_MsgLdrprepareFast = Accumulator();
 	Justifications_t justifications_MsgNewviewFast_t;
 	setJustifications(justifications_MsgNewviewFast, &justifications_MsgNewviewFast_t);
@@ -869,6 +873,10 @@ Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgN
 	sgx_status_t ecall_status_t;
 	ecall_status_t = TEE_initializeAccumulatorFast(global_eid, &enclave_status_t, &justifications_MsgNewviewFast_t, &accumulator_MsgLdrprepareFast_t);
 	accumulator_MsgLdrprepareFast = getAccumulator(&accumulator_MsgLdrprepareFast_t);
+	if (DEBUG_HELP)
+	{
+		std::cout << COLOUR_BLUE << this->printReplicaId() << "Completed to Initialize accumulator" << COLOUR_NORMAL << std::endl;
+	}
 	return accumulator_MsgLdrprepareFast;
 }
 
@@ -951,6 +959,10 @@ Accumulator ResiBFT::buildAccumulator(std::set<MsgNewviewFast> msgNewviewFasts)
 
 	Accumulator accumulator_MsgLdrprepareFast;
 	accumulator_MsgLdrprepareFast = this->initializeAccumulatorFast(justifications_MsgNewviewFast);
+	if (DEBUG_HELP)
+	{
+		std::cout << COLOUR_BLUE << this->printReplicaId() << "Generate the accumulator: " << accumulator_MsgLdrprepareFast.toPrint() << COLOUR_NORMAL << std::endl;
+	}
 	return accumulator_MsgLdrprepareFast;
 }
 

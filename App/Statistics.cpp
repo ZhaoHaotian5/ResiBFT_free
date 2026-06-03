@@ -30,7 +30,7 @@ double Statistics::getTotalHandleTimes()
 unsigned int Statistics::getTotalHandleNum()
 {
 	unsigned int totalHandleNum = 0;
-	for (std::map<View, std::multiset<double>>::iterator it = this->allHandleTimes.begin(); it != this->allHandleTimes.end(); it++)
+	for (std::map<View, std::multiset<double>>::iterator it = this->handleTimes.begin(); it != this->handleTimes.end(); it++)
 	{
 		totalHandleNum += it->second.size();
 	}
@@ -107,10 +107,10 @@ double Statistics::getTotalViewTimesTentative()
 
 		if (itEnd == this->fast2commonView.end())
 		{
-			for (View view = common2fastView + 1; view <= this->executeViews(); view++)
+			for (View view = common2fastView + 1; view <= this->executeViews; view++)
 			{
 				fastIntervalViews.insert(view);
-				if (view + 1 <= this->executeViews())
+				if (view + 1 <= this->executeViews)
 				{
 					totalViewTentative += this->allViewTimes[view];
 					totalViewTentative += this->allViewTimes[view + 1];

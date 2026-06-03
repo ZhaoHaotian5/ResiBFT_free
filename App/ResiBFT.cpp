@@ -875,6 +875,10 @@ Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgN
 	accumulator_MsgLdrprepareFast = getAccumulator(&accumulator_MsgLdrprepareFast_t);
 	if (DEBUG_HELP)
 	{
+		std::cout << COLOUR_BLUE << this->printReplicaId() << std::to_string(ecall_status_t) << " " << std::to_string(enclave_status_t) << COLOUR_NORMAL << std::endl;
+	}
+	if (DEBUG_HELP)
+	{
 		std::cout << COLOUR_BLUE << this->printReplicaId() << "Completed to Initialize accumulator" << COLOUR_NORMAL << std::endl;
 	}
 	return accumulator_MsgLdrprepareFast;

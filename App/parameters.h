@@ -1,0 +1,9 @@
+#ifndef PARAMETERS_H
+#define PARAMETERS_H
+
+#define NUM_REPLICAS 61
+#define NUM_TRANSACTIONS 400
+#define NUM_COMMITTEE_MEMBERS 30
+#define NUM_PAYLOAD_SIZE 0
+
+#endif

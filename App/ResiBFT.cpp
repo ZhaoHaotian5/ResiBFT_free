@@ -861,10 +861,6 @@ Justification ResiBFT::initializeMsgNewviewFast()
 
 Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgNewviewFast[NUM_ACTIVE_REPLICAS])
 {
-	if (DEBUG_HELP)
-	{
-		std::cout << COLOUR_BLUE << this->printReplicaId() << "Initializing accumulator" << COLOUR_NORMAL << std::endl;
-	}
 	Accumulator accumulator_MsgLdrprepareFast = Accumulator();
 	Justifications_t justifications_MsgNewviewFast_t;
 	setJustifications(justifications_MsgNewviewFast, &justifications_MsgNewviewFast_t);
@@ -873,14 +869,6 @@ Accumulator ResiBFT::initializeAccumulatorFast(Justification justifications_MsgN
 	sgx_status_t ecall_status_t;
 	ecall_status_t = TEE_initializeAccumulatorFast(global_eid, &enclave_status_t, &justifications_MsgNewviewFast_t, &accumulator_MsgLdrprepareFast_t);
 	accumulator_MsgLdrprepareFast = getAccumulator(&accumulator_MsgLdrprepareFast_t);
-	if (DEBUG_HELP)
-	{
-		std::cout << COLOUR_BLUE << this->printReplicaId() << std::to_string(ecall_status_t) << " " << std::to_string(enclave_status_t) << COLOUR_NORMAL << std::endl;
-	}
-	if (DEBUG_HELP)
-	{
-		std::cout << COLOUR_BLUE << this->printReplicaId() << "Completed to Initialize accumulator" << COLOUR_NORMAL << std::endl;
-	}
 	return accumulator_MsgLdrprepareFast;
 }
 
@@ -963,10 +951,6 @@ Accumulator ResiBFT::buildAccumulator(std::set<MsgNewviewFast> msgNewviewFasts)
 
 	Accumulator accumulator_MsgLdrprepareFast;
 	accumulator_MsgLdrprepareFast = this->initializeAccumulatorFast(justifications_MsgNewviewFast);
-	if (DEBUG_HELP)
-	{
-		std::cout << COLOUR_BLUE << this->printReplicaId() << "Generate the accumulator: " << accumulator_MsgLdrprepareFast.toPrint() << COLOUR_NORMAL << std::endl;
-	}
 	return accumulator_MsgLdrprepareFast;
 }
 
@@ -2879,7 +2863,7 @@ void ResiBFT::recordStatistics()
 
 	// Tentative latency
 	double totalViewTentative = statistics.getTotalViewTimesTentative();
-	double latencyViewTentative = (totalView / totalViewNum / 1000); // milli-seconds spent on views
+	double latencyViewTentative = (getTotalViewTimesTentative / totalViewNum / 1000); // milli-seconds spent on views
 
 	// Handle
 	double handle = (totalHandle / 1000); // milli-seconds spent on handling messages

@@ -2863,7 +2863,7 @@ void ResiBFT::recordStatistics()
 
 	// Tentative latency
 	double totalViewTentative = statistics.getTotalViewTimesTentative();
-	double latencyViewTentative = (getTotalViewTimesTentative / totalViewNum / 1000); // milli-seconds spent on views
+	double latencyViewTentative = (totalViewTentative / totalViewNum / 1000); // milli-seconds spent on views
 
 	// Handle
 	double handle = (totalHandle / 1000); // milli-seconds spent on handling messages
@@ -2905,7 +2905,7 @@ ResiBFT::ResiBFT(KeysFunctions keysFunctions, ReplicaID replicaId, unsigned int 
 	this->path = COMMON_PATH;
 	this->view = 0;
 	this->generalQuorumSize = this->numReplicas - this->numFaults;
-	this->trustedQuorumSize = floor((this->trustedRecords.size() + 1) / 2);
+	this->trustedQuorumSize = ceil((this->committee.getSize() + 1) / 2);
 
 	if (DEBUG_HELP)
 	{

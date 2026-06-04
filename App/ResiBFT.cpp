@@ -329,7 +329,7 @@ unsigned int ResiBFT::getLeaderOf(View view)
 	}
 	else if (this->path == FAST_PATH)
 	{
-		leader = this->committee.getCommittee()[view % this->committee.getSize()];
+		leader = this->committee.getCommittee()[view % NUM_COMMITTEE_MEMBERS];
 	}
 	return leader;
 }
@@ -1335,7 +1335,7 @@ void ResiBFT::handleEarlierMessagesCommon()
 		{
 			if (DEBUG_HELP)
 			{
-				std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrecommit certificate" << COLOUR_NORMAL << std::endl;
+				std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrecommit certificate in common path" << COLOUR_NORMAL << std::endl;
 			}
 
 			// Skip the prepare phase and pre-commit phase
@@ -1380,7 +1380,7 @@ void ResiBFT::handleEarlierMessagesCommon()
 			{
 				if (DEBUG_HELP)
 				{
-					std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrepare certificate" << COLOUR_NORMAL << std::endl;
+					std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrepare certificate in common path" << COLOUR_NORMAL << std::endl;
 				}
 
 				// Skip the prepare phase
@@ -1419,7 +1419,7 @@ void ResiBFT::handleEarlierMessagesCommon()
 				{
 					if (DEBUG_HELP)
 					{
-						std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgLdrprepare proposal" << COLOUR_NORMAL << std::endl;
+						std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgLdrprepare proposal in common path" << COLOUR_NORMAL << std::endl;
 					}
 					ProposalCommon proposalCommon = msgLdrprepareCommon.proposalCommon;
 					Committee committee_MsgLdrprepareCommon = msgLdrprepareCommon.committee;
@@ -1472,7 +1472,7 @@ void ResiBFT::handleEarlierMessagesFast()
 		{
 			if (DEBUG_HELP)
 			{
-				std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrecommit certificate" << COLOUR_NORMAL << std::endl;
+				std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrecommit certificate in fast path" << COLOUR_NORMAL << std::endl;
 			}
 
 			// Skip the prepare phase and pre-commit phase
@@ -1517,7 +1517,7 @@ void ResiBFT::handleEarlierMessagesFast()
 			{
 				if (DEBUG_HELP)
 				{
-					std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrepare certificate" << COLOUR_NORMAL << std::endl;
+					std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgPrepare certificate in fast path" << COLOUR_NORMAL << std::endl;
 				}
 				Justification justification_MsgPrepareFast = this->log.firstMsgPrepareFast(this->view);
 
@@ -1549,7 +1549,7 @@ void ResiBFT::handleEarlierMessagesFast()
 				{
 					if (DEBUG_HELP)
 					{
-						std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgLdrprepare proposal" << COLOUR_NORMAL << std::endl;
+						std::cout << COLOUR_BLUE << this->printReplicaId() << "Catching up using MsgLdrprepare proposal in fast path" << COLOUR_NORMAL << std::endl;
 					}
 					ProposalFast proposalFast = msgLdrprepare.proposalFast;
 					Validations validations_MsgLdrprepareFast = msgLdrprepare.validations;

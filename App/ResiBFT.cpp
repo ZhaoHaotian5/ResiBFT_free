@@ -329,7 +329,7 @@ unsigned int ResiBFT::getLeaderOf(View view)
 	}
 	else if (this->path == FAST_PATH)
 	{
-		leader = this->committee.getCommittee()[this->view % this->committee.getSize()];
+		leader = this->committee.getCommittee()[view % this->committee.getSize()];
 	}
 	return leader;
 }
@@ -2905,7 +2905,7 @@ ResiBFT::ResiBFT(KeysFunctions keysFunctions, ReplicaID replicaId, unsigned int 
 	this->path = COMMON_PATH;
 	this->view = 0;
 	this->generalQuorumSize = this->numReplicas - this->numFaults;
-	this->trustedQuorumSize = ceil((this->committee.getSize() + 1) / 2);
+	this->trustedQuorumSize = ceil((NUM_COMMITTEE_MEMBERS + 1) / 2);
 
 	if (DEBUG_HELP)
 	{

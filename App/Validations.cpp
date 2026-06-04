@@ -88,7 +88,7 @@ bool Validations::isAccepted()
 			accepted++;
 		}
 	}
-	
+
 	if (accepted >= threshold)
 	{
 		return true;
